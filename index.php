@@ -10,26 +10,42 @@
     <title>Liste Course</title>
 </head>
 <body>
-<form action="" method="post" id="formMagasin">
-    <h2>Liste des produits</h2>
-    <select name="Produits" id="produits">
-        <?php foreach(Produit::getAll() as $produit) { 
-?>      <option value="<?php echo $produit->id_produit; ?>"> <?php echo $produit->nom;?></option>
-<?php
-        } ?>
-    </select>
-
-    <h2>Liste des Magasins</h2>
-    <select name="Magasins" id="Magasins">
-        <option value="" disabled selected>-- Choisir un magasin --</option>
-        <?php foreach(Magasin::getAll() as $magasin) { 
-?>      <option value="<?php echo $magasin->id_magasin; ?>"> <?php echo $magasin->nom;?></option>
-<?php
-        } ?>
-    </select>
-
+    <form action="" method="post" id="formProduit">
+        <h2>Liste des produits</h2>
+        <select name="Produits" id="Produits">
+            <?php foreach(Produit::getAll() as $produit) { 
+    ?>      <option value="<?php echo $produit->id_produit; ?>"> <?php echo $produit->nom;?></option>
+    <?php
+            } ?>
+        </select>
     </form>
+    <?php
+    if(!empty($_POST['Produits'])){ 
+        $produit = Produit::getById((int)$_POST['Produits']);
+    ?>
+    <h2>Liste de magasin par produit : <?php echo $produit->nom; ?></h2>
+    <ul>
+        <?php //var_dump($magasin->getProduits()); ?>
+        <?php foreach($produit->getMagasins() as $mag) { 
+            
+?>      <li><?php echo ucfirst($mag->nom); ?> : <?php echo $mag->quantite; ?> </li>
+<?php
+        } ?>
+    </ul>
+    <?php }
+    ?>
 
+
+    <form action="" method="post" id="formMagasin">
+        <h2>Liste des Magasins</h2>
+        <select name="Magasins" id="Magasins">
+            <option value="" disabled selected>-- Choisir un magasin --</option>
+            <?php foreach(Magasin::getAll() as $magasin) { 
+    ?>      <option value="<?php echo $magasin->id_magasin; ?>"> <?php echo $magasin->nom;?></option>
+    <?php
+            } ?>
+        </select>
+    </form>
     <?php
     if(!empty($_POST['Magasins'])){ 
         $magasin = Magasin::getById((int)$_POST['Magasins']);
@@ -46,12 +62,14 @@
     </ul>
     <h3>Total des courses : <?php echo $total; ?>€</h2>
     <?php }
-
     ?>
 
     <script type="text/javascript">
     document.getElementById("Magasins").addEventListener("change", function(e){
         document.getElementById("formMagasin").submit();
+    });
+    document.getElementById("Produits").addEventListener("change", function(e){
+        document.getElementById("formProduit").submit();
     });
     </script>
 </body>
