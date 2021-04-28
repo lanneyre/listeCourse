@@ -18,4 +18,8 @@ abstract class Pratique{
     public function store(){
         return Database::insert(static::$_table, $this->data);
     }
+
+    public static function delete($id){
+        return Database::delete(static::$_table, $id);
+    }
 }

@@ -23,3 +23,20 @@ if(isset($_POST['InsertMagasin'])){
     }
     exit;
 }
+
+if(isset($_POST['DeleteProduit'])){
+    if(Produit::delete($_POST['Produits'])){
+        header("Location: index.php?statut=produitsDeleteOk");
+    } else {
+        header("Location: index.php?statut=produitsDeleteKo");
+    }
+    exit;
+}
+if(isset($_POST['DeleteMagasin'])){
+    if(Magasin::delete($_POST['Magasins'])){
+        header("Location: index.php?statut=magasinsDeleteOk");
+    } else {
+        header("Location: index.php?statut=magasinsDeleteKo");
+    }
+    exit;
+}

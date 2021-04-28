@@ -68,4 +68,12 @@ class Database
 
 		return $req->execute();
 	}
+
+	public static function delete($table, $id){
+		self::createConnexion();
+		$sql = "DELETE FROM `$table` WHERE `id_$table` = :id";
+		$req = self::$_conn->prepare($sql);
+		$req->bindvalue(":id", $id, PDO::PARAM_INT);
+		return $req->execute();
+	}
 }

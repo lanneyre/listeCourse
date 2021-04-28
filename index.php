@@ -13,7 +13,7 @@
 <body>
     <fieldset>
         <legend>Read</legend>
-        <section id="Read">
+        <section>
             <form action="" method="post" id="formProduit">
                 <h2>Liste des produits</h2>
                 <select name="Produits" id="Produits">
@@ -41,7 +41,6 @@
             ?>
         </section>
         <section>
-
             <form action="" method="post" id="formMagasin">
                 <h2>Liste des Magasins</h2>
                 <select name="Magasins" id="Magasins">
@@ -83,8 +82,8 @@
     
     <fieldset>
         <legend>Insert</legend>
-        <section id="Insert">
-            <h2>Insertion Produit</h2>
+        <section>
+        <h2>Insertion Produit</h2>
             <form action="" method="POST" id="InsertProduit">
                 <label for="insertNomProduitID"><input type="text" name="nom" id="insertNomProduitID" value="" placeholder="Nom du produit" required>
                 <label for="insertPrix_unitProduitID"><input type="number" name="prix_unit" id="insertPrix_unitProduitID" value="" placeholder="Prix du produit" required>
@@ -104,6 +103,38 @@
             </form>
         </section>
     </fieldset>
-    
+
+    <fieldset>
+        <!-- A finir -->
+        <legend>Delete</legend>
+        <section>
+            <h2>Liste des produits</h2>
+            <form action="" method="post">
+                <select name="Produits" id="ProduitsToDelete" required>
+                    <option value="" disabled selected>-- Choisir un produit --</option>
+                    <?php foreach(Produit::getAll() as $produit) { 
+            ?>      <option value="<?php echo $produit->id_produit; ?>"> <?php echo $produit->nom;?></option>
+            <?php
+                    } ?>
+                </select>
+                <br>
+                <input type="submit" value="Supprimer" name="DeleteProduit">
+            </form>
+        </section>
+        <section>
+            <h2>Delete des Magasins</h2>
+            <form action="" method="post">
+                <select name="Magasins" id="MagasinsToDelete" required>
+                    <option value="" disabled selected>-- Choisir un magasin --</option>
+                    <?php foreach(Magasin::getAll() as $magasin) { 
+            ?>      <option value="<?php echo $magasin->id_magasin; ?>"> <?php echo $magasin->nom;?></option>
+            <?php
+                    } ?>
+                </select>
+                <br>
+                <input type="submit" value="Supprimer" name="DeleteMagasin">
+            </form>
+        </section>
+    </fieldset>
 </body>
 </html>
