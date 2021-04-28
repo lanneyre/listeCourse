@@ -19,6 +19,10 @@ abstract class Pratique{
         return Database::insert(static::$_table, $this->data);
     }
 
+    public function save(){
+        return Database::update(static::$_table, $this->data);
+    }
+
     public static function delete($id){
         return Database::delete(static::$_table, $id);
     }

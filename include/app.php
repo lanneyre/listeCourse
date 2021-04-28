@@ -5,7 +5,7 @@ Autoloader::register();
 
 
 if(isset($_POST['InsertProduit'])){
-    $produit = new Produit($_POST['nom'], $_POST['prix_unit']);
+    $produit = Produit::build($_POST['nom'], $_POST['prix_unit']);
     if($produit->store()){
         header("Location: index.php?statut=produitInsertOk");
     } else {
@@ -13,9 +13,8 @@ if(isset($_POST['InsertProduit'])){
     }
     exit;
 }
-
 if(isset($_POST['InsertMagasin'])){
-    $magasin = new Magasin($_POST['nom'], $_POST['contact']);
+    $magasin = Magasin::build($_POST['nom'], $_POST['contact']);
     if($magasin->store()){
         header("Location: index.php?statut=magasinInsertOk");
     } else {
@@ -37,6 +36,26 @@ if(isset($_POST['DeleteMagasin'])){
         header("Location: index.php?statut=magasinsDeleteOk");
     } else {
         header("Location: index.php?statut=magasinsDeleteKo");
+    }
+    exit;
+}
+
+if(isset($_POST['FormEditProduit'])){
+    $produit = Produit::build($_POST['nom'], $_POST['prix_unit'], $_POST['id_produit']);
+    if($produit->save()){
+        header("Location: index.php?statut=produitEditOk");
+    } else {
+        header("Location: index.php?statut=produitEditKo");
+    }
+    exit;
+}
+
+if(isset($_POST['FormEditMagasin'])){
+    $magasin = Magasin::build($_POST['nom'], $_POST['contact'], $_POST['id_magasin']);
+    if($magasin->save()){
+        header("Location: index.php?statut=magasinEditOk");
+    } else {
+        header("Location: index.php?statut=magasinEditKo");
     }
     exit;
 }

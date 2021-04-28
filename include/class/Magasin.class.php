@@ -2,6 +2,7 @@
 
 class Magasin extends Pratique{
     protected static $_table = 'magasin';
+    public $id_magasin;
     public $nom;
     public $contact;
     
@@ -11,13 +12,17 @@ class Magasin extends Pratique{
 
     }
 
-    public function __construct($nom = "", $contact = ""){
-        $this->nom = $nom;
-        $this->contact = $contact;
-        $this->createData();
+    public static function build($nom = "", $contact = "", $id_magasin = null){
+        $obj = new static;
+        $obj->nom = $nom;
+        $obj->contact = $contact;
+        $obj->id_magasin = $id_magasin;
+        $obj->createData();
+        return $obj;
     }
     
-    private function createData(){
+    public function createData(){
+        $this->data["id_magasin"] = $this->id_magasin;
         $this->data["nom"] = $this->nom;
         $this->data["contact"] = $this->contact;
     }

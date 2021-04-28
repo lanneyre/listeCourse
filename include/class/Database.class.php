@@ -26,6 +26,7 @@ class Database
 		self::createConnexion();
 		$sql = "SELECT * FROM `$table` WHERE $option";
 		//$sql = 'SELECT * FROM `'.$table.'` WHERE '.$option;
+		//var_dump($sql);
 		$req = self::$_conn->query($sql);
 		if($comportement == PDO::FETCH_CLASS){
 			$req->setFetchMode(PDO::FETCH_CLASS, ucfirst($table));
@@ -75,5 +76,31 @@ class Database
 		$req = self::$_conn->prepare($sql);
 		$req->bindvalue(":id", $id, PDO::PARAM_INT);
 		return $req->execute();
+	}
+
+	public static function update($table, $data){
+		self::createConnexion();
+		//UPDATE `produit` SET `nom` = 'test2', `prix_unit` = '22.00' WHERE `produit`.`id_produit` = 17 
+		$sql = "UPDATE `$table` SET [SET] WHERE `$table`.`id_$table` = :id_table";
+		$set = [];
+		$id = null;
+		foreach($data as $key => $value){
+			if(substr($key, 0,2) != "id"){
+				$set[] = $key . " = :".$key;
+			} else {
+				$id = $value;
+			}
+		}
+		$sql = str_replace('[SET]', implode(', ', $set), $sql);
+		var_dump($sql);
+		$req = self::$_conn->prepare($sql);
+		foreach($data as $key => $valueToInsert){
+			if(substr($key, 0,2) != "id"){
+				$req->bindvalue(":".$key, $valueToInsert);
+			}
+		}
+		$req->bindvalue(":id_table", $id, PDO::PARAM_INT);
+		return $req->execute();
+		//var_dump($req->debugDumpParams());
 	}
 }
