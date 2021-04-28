@@ -1,0 +1,8 @@
+fieldset {
+    display: flex;
+    justify-content: space-around;
+}
+fieldset > section{
+    /* border: 2px solid red; */
+    width: 40%;
+}

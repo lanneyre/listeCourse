@@ -2,6 +2,8 @@
 
 class Magasin extends Pratique{
     protected static $_table = 'magasin';
+    public $nom;
+    public $contact;
     
     public function getProduits(){
 
