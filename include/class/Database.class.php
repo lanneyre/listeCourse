@@ -22,11 +22,31 @@ class Database
 		}
 	}
 
-	public static function selectAll($table, $option = "1", $comportement = PDO::FETCH_OBJ){
+	public static function selectAll($table, $option = "1", $all = true, $comportement = PDO::FETCH_CLASS){
 		self::createConnexion();
 		$sql = "SELECT * FROM `$table` WHERE $option";
 		//$sql = 'SELECT * FROM `'.$table.'` WHERE '.$option;
 		$req = self::$_conn->query($sql);
+		if($comportement == PDO::FETCH_CLASS){
+			$req->setFetchMode(PDO::FETCH_CLASS, ucfirst($table));
+		}
+		if($all){
+			return $req->fetchAll($comportement);
+		} else {
+			return $req->fetch($comportement);
+		}	
+	}
+
+	public static function selectByJoin($table1, $table2, $join = "liste", $option = 1, $comportement = PDO::FETCH_CLASS ){
+		self::createConnexion();
+
+		$sql = "SELECT * FROM `$join` j JOIN `$table2` t2 ON (`j`.`id_$table2` = `t2`.`id_$table2`) WHERE $option ";
+		$req = self::$_conn->query($sql);
+		//var_dump($sql);
+		if($comportement == PDO::FETCH_CLASS){
+			$req->setFetchMode(PDO::FETCH_CLASS, ucfirst($table2));
+		}
 		return $req->fetchAll($comportement);
+
 	}
 }

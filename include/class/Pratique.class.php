@@ -9,7 +9,7 @@ abstract class Pratique{
 
     public static function getById($id){
         if(is_int($id)){
-            return Database::selectAll(static::$_table, "id_".static::$_table."=$id");
+            return Database::selectAll(static::$_table, "id_".static::$_table."=$id", false);
         } 
         return false;
     }
