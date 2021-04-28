@@ -5,7 +5,7 @@ class Magasin extends Pratique{
     
     public function getProduits(){
 
-        return Database::selectByJoin("magasin", "produit", "liste", "id_produit=$this->id_produit");
+        return Database::selectByJoin("magasin", "produit", "liste", "id_magasin=$this->id_magasin");
 
     }
 }

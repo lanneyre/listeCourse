@@ -13,6 +13,7 @@
     <form action="" method="post" id="formProduit">
         <h2>Liste des produits</h2>
         <select name="Produits" id="Produits">
+            <option value="" disabled selected>-- Choisir un produit --</option>
             <?php foreach(Produit::getAll() as $produit) { 
     ?>      <option value="<?php echo $produit->id_produit; ?>"> <?php echo $produit->nom;?></option>
     <?php
