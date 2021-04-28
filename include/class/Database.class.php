@@ -37,7 +37,7 @@ class Database
 		}	
 	}
 
-	public static function selectByJoin($table1, $table2, $join = "liste", $option = 1, $comportement = PDO::FETCH_CLASS ){
+	public static function selectByJoin($table2, $join = "liste", $option = 1, $comportement = PDO::FETCH_CLASS ){
 		self::createConnexion();
 
 		$sql = "SELECT * FROM `$join` j JOIN `$table2` t2 ON (`j`.`id_$table2` = `t2`.`id_$table2`) WHERE $option ";
@@ -47,6 +47,25 @@ class Database
 			$req->setFetchMode(PDO::FETCH_CLASS, ucfirst($table2));
 		}
 		return $req->fetchAll($comportement);
+	}
 
+	public static function insert($table, $data){
+		self::createConnexion();
+
+		$sql = "INSERT INTO `$table`([CHAMPS]) VALUES ([VALUES]);";
+		$champs = [];
+		$values = [];
+		foreach($data as $key => $value){
+			$champs[] = $key;
+			$values[] = ":".$key;
+		}
+		$sql = str_replace('[CHAMPS]', implode(', ', $champs), $sql);
+		$sql = str_replace('[VALUES]', implode(', ', $values), $sql);
+		$req = self::$_conn->prepare($sql);
+		foreach($data as $key => $valueToInsert){
+			$req->bindvalue(":".$key, $valueToInsert);
+		}
+
+		return $req->execute();
 	}
 }
